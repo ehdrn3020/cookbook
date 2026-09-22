@@ -105,3 +105,56 @@ replication.policy.class = org.apache.kafka.connect.mirror.IdentityReplicationPo
 - consumer는 끊겨도 offset을 들고 있다가 재연결해서 이어 읽으면 그만이다. 반면 producer는 원격 구간에서 타임아웃·재시도가 걸리면 처리량이 떨어지고, 설정에 따라 유실이나 중복까지 번진다.
 - 공식 문서도 이 배치를 best practice로 명시한다. (참조 : 위 geo-replication 문서)
 - Preventing Configuration Conflicts와 같이 보면 이해가 쉽다. MM2는 **타깃 클러스터의 config 토픽으로 설정을 공유**하므로, 태생적으로 타깃 쪽에 붙는 구조다.
+
+
+### 실전 설정 예제
+- 원격 클러스터의 MSSQL CDC 토픽을 로컬로 단방향 복제하는 구성
+```aiignore
+# ── 1. 클러스터 별칭 선언 (필수, 2개) ─────────────────────────────
+clusters = remote, local
+
+# 별칭별 접속 정보. MM2는 local 쪽에 띄운다 (consume from remote, produce to local)
+remote.bootstrap.servers = remote-broker1:9092,remote-broker2:9092,remote-broker3:9092
+local.bootstrap.servers  = local-broker1:9092,local-broker2:9092,local-broker3:9092
+
+# ── 2. 흐름 방향 ────────────────────────────────────────────────
+# 흐름은 단방향. 기본값이 false지만 역방향을 명시해 의도를 남긴다
+remote->local.enabled = true
+local->remote.enabled = false
+
+# ── 3. 복제 대상 토픽 ───────────────────────────────────────────
+# 정규식이므로 점(.)은 반드시 이스케이프 — 안 하면 임의 문자가 되어 의도보다 넓게 잡힌다
+# Debezium MSSQL 토픽 구조 : {topic.prefix}.{database}.{schema}.{table}
+remote->local.topics = stg_mssql_orderdb01\.ORDERDB\.dbo\..*
+
+# ── 4. 토픽명 정책 ─────────────────────────────────────────────
+# 기본 DefaultReplicationPolicy는 타깃 토픽에 "remote." prefix를 붙인다.
+# IdentityReplicationPolicy는 원본 토픽명을 그대로 유지 (소스와 이름이 같아짐)
+# ※ 단방향에서만 안전. 양방향이면 A→B→A 무한 복제 루프를 못 막는다
+replication.policy.class = org.apache.kafka.connect.mirror.IdentityReplicationPolicy
+
+# ── 5. Replication Factor ──────────────────────────────────────
+# 아래는 브로커 1대 기준 값. 운영은 전부 3 권장 (RF=1은 브로커 장애 시 그대로 유실)
+replication.factor = 1                          # 복제해서 만드는 데이터 토픽의 RF
+
+# MM2가 쓰는 내부 토픽 3종
+checkpoints.topic.replication.factor = 1        # 컨슈머 그룹 오프셋 체크포인트
+heartbeats.topic.replication.factor = 1         # 흐름 생존 확인용 하트비트
+offset-syncs.topic.replication.factor = 1       # 소스↔타깃 오프셋 매핑 테이블
+
+# Connect 런타임이 쓰는 내부 토픽 3종 (Default Topic 문서 참조)
+offset.storage.replication.factor = 1           # connect-offsets
+status.storage.replication.factor = 1           # connect-status
+config.storage.replication.factor = 1           # connect-configs
+
+# ── 6. 병렬도 ──────────────────────────────────────────────────
+# 최소 2 권장. 기준은 하드웨어 자원과 복제할 토픽-파티션 총 개수
+tasks.max = 2
+
+# ── 7. 부가 기능 ───────────────────────────────────────────────
+# 컨슈머 그룹 오프셋을 타깃에 동기화할지. 타깃에서 이어 읽을 컨슈머가 없으면 false
+remote->local.sync.group.offsets.enabled = false
+
+# 하트비트 발행. 복제 흐름이 살아있는지 모니터링하려면 true
+remote->local.emit.heartbeats.enabled = true
+```
