@@ -83,3 +83,25 @@ replication.policy.class = org.apache.kafka.connect.mirror.IdentityReplicationPo
 - 해결 방법
   - 같은 타깃 클러스터를 바라보는 MM2 프로세스들은 설정을 공유하므로, 설정이 서로 다르면 리더로 뽑힌 한 대의 설정만 살아남고 나머지는 무시됩니다. 
   - 따라서, 같은 타깃 클러스터를 바라보는 모든 MM2 프로세스들은 동일한 설정을 사용해야 합니다.
+
+
+### MM2를 어느 클러스터 쪽에 둘 것인가
+- 결론 : **화살표가 받는 쪽, 즉 타깃 클러스터 가까이 둔다.**
+- 원칙은 **consume from remote, produce to local** (원격에서 읽고 로컬에 쓴다)
+```aiignore
+  remote-kafka01                              local-storage01
+  (A : 원격, 소스)                             (B : 로컬, 타깃)
+        │                                            │
+        │                                   ┌────────┴────────┐
+        └────────── consume ────────────────┤      MM2        │
+                   (원격 read)               │  여기에 배치     │
+                                            └────────┬────────┘
+                                                     │ produce
+                                                     ▼ (로컬 write)
+                                              local-storage01
+```
+#### 왜 타깃 쪽인가
+- Kafka **producer가 consumer보다 네트워크에 더 취약**하다.
+- consumer는 끊겨도 offset을 들고 있다가 재연결해서 이어 읽으면 그만이다. 반면 producer는 원격 구간에서 타임아웃·재시도가 걸리면 처리량이 떨어지고, 설정에 따라 유실이나 중복까지 번진다.
+- 공식 문서도 이 배치를 best practice로 명시한다. (참조 : 위 geo-replication 문서)
+- Preventing Configuration Conflicts와 같이 보면 이해가 쉽다. MM2는 **타깃 클러스터의 config 토픽으로 설정을 공유**하므로, 태생적으로 타깃 쪽에 붙는 구조다.
