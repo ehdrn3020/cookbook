@@ -155,6 +155,22 @@ tasks.max = 2
 # 컨슈머 그룹 오프셋을 타깃에 동기화할지. 타깃에서 이어 읽을 컨슈머가 없으면 false
 remote->local.sync.group.offsets.enabled = false
 
+# 소스 토픽의 설정(retention.ms, cleanup.policy 등)을 타깃 토픽에 계속 맞출지. 기본값 true.
+remote->local.sync.topic.configs.enabled = false
+
 # 하트비트 발행. 복제 흐름이 살아있는지 모니터링하려면 true
 remote->local.emit.heartbeats.enabled = true
+```
+
+### 실행
+```aiignore
+export JAVA_HOME=/usr/lib/jvm/jdk-1.8.0-openjdk
+export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:/kafka/default/config/mm2-log4j.properties"
+
+nohup /kafka/default/bin/connect-mirror-maker.sh \
+/kafka/default/config/connect-mirror-maker-source_cluster.properties \
+--clusters target_cluster > /dev/null 2>&1 &
+
+# 로그 경로
+tail -f /kafka/default/logs/mm2.log
 ```
