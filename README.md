@@ -41,8 +41,8 @@
 
 | 기술 | 문서 수 | 목차 |
 | --- | ---: | --- |
-| Spring Boot | 12 | [spring-boot/_README.md](spring-boot/_README.md) |
-| Java | 6 | [java/_README.md](java/_README.md) |
+| Spring Boot | 11 | [spring-boot/_README.md](spring-boot/_README.md) |
+| Java | 7 | [java/_README.md](java/_README.md) |
 | Scala | 2 | [scala/_README.md](scala/_README.md) |
 | Python | 1 | [python/_README.md](python/_README.md) |
 

@@ -2,6 +2,7 @@
 
 | 문서 | 작성일 |
 | --- | --- |
+| [JFR과 JMC](jfr-and-jmc.md) | 2026-10-06 |
 | [스트림](stream.md) | 2025-12-20 |
 | [람다식](lambda-expression.md) | 2025-12-20 |
 | [메서드 참조](method-reference.md) | 2025-12-20 |
