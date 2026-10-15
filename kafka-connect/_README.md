@@ -2,6 +2,8 @@
 
 | 문서 | 작성일 |
 | --- | --- |
+| [MirrorMaker 2 다중 노드 HA 구성](mirror-maker-2-multi-node-high-availability.md) | 2026-10-14 |
+| [MirrorMaker 2 설정 예제](mirror-maker-2-configuration-example.md) | 2026-10-14 |
 | [Cross Cluster Data Mirroring (MirrorMaker 2)](mirror-maker.md) | 2026-09-22 |
 | [Mariadb Failover 조치](mariadb-failover-handling.md) | 2025-12-13 |
 | [Source Connector 설정](source-connector-configuration.md) | 2025-11-19 |
