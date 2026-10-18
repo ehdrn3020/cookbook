@@ -2,6 +2,7 @@
 
 | 문서 | 작성일 |
 | --- | --- |
+| [@EntityGraph와 N+1 문제](entity-graph-and-n-plus-one.md) | 2026-10-17 |
 | [JPA 임베디드 타입과 복합 키](jpa-embedded-type-and-composite-key.md) | 2026-10-17 |
 | [캐시 · 생명주기 어노테이션](cache-and-lifecycle-annotations.md) | 2026-10-17 |
 | [트랜잭션 · 스케줄 · 비동기 어노테이션](transaction-schedule-async-annotations.md) | 2026-10-17 |
