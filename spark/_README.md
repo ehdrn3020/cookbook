@@ -2,6 +2,7 @@
 
 | 문서 | 작성일 |
 | --- | --- |
+| [Spark Cache와 Persist](spark-cache-and-persist.md) | 2026-10-25 |
 | [SparkSql Performance Tuning](sparksql-performance-tuning.md) | 2026-09-19 |
 | [Spark Executor OOM 원인과 해결](spark-executor-oom.md) | 2026-07-21 |
 | [Query Execution Plan Debugging](query-execution-plan-debugging.md) | 2026-05-08 |
