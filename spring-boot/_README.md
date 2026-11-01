@@ -2,6 +2,8 @@
 
 | 문서 | 작성일 |
 | --- | --- |
+| [@Configuration 조건 어노테이션](configuration-conditional-annotations.md) | 2026-11-01 |
+| [환경별 배포 — 프로파일과 설정 파일](profile-based-deployment.md) | 2026-11-01 |
 | [@EntityGraph와 N+1 문제](entity-graph-and-n-plus-one.md) | 2026-10-17 |
 | [JPA 임베디드 타입과 복합 키](jpa-embedded-type-and-composite-key.md) | 2026-10-17 |
 | [캐시 · 생명주기 어노테이션](cache-and-lifecycle-annotations.md) | 2026-10-17 |
