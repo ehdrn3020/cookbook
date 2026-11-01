@@ -2,6 +2,7 @@
 
 | 문서 | 작성일 |
 | --- | --- |
+| [Spark 안의 Hive — 실행과 메타데이터 클라이언트](hive-in-spark-execution-and-metastore-client.md) | 2026-11-01 |
 | [Spark Cache와 Persist](spark-cache-and-persist.md) | 2026-10-25 |
 | [SparkSql Performance Tuning](sparksql-performance-tuning.md) | 2026-09-19 |
 | [Spark Executor OOM 원인과 해결](spark-executor-oom.md) | 2026-07-21 |
