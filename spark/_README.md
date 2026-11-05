@@ -2,6 +2,7 @@
 
 | 문서 | 작성일 |
 | --- | --- |
+| [Iceberg 테이블 쓰기 방식과 DataFrameWriterV2](iceberg-table-write-modes-and-dataframewriterv2.md) | 2026-11-02 |
 | [Spark 안의 Hive — 실행과 메타데이터 클라이언트](hive-in-spark-execution-and-metastore-client.md) | 2026-11-01 |
 | [Spark Cache와 Persist](spark-cache-and-persist.md) | 2026-10-25 |
 | [SparkSql Performance Tuning](sparksql-performance-tuning.md) | 2026-09-19 |
