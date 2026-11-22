@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="530" viewBox="0 0 960 530" font-family="'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif">
+  <defs>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8c959f"/></marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1a7f37"/></marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#cf222e"/></marker>
+  </defs>
+
+  <rect width="960" height="530" fill="#ffffff"/>
+
+  <!-- column headers -->
+  <text x="150" y="40" text-anchor="middle" font-size="17" font-weight="700" fill="#1f2328">① 기존 잡</text>
+  <text x="150" y="62" text-anchor="middle" font-size="12" fill="#656d76">실행 중인 연산자와 state</text>
+  <text x="480" y="40" text-anchor="middle" font-size="17" font-weight="700" fill="#1f2328">② Savepoint</text>
+  <text x="480" y="62" text-anchor="middle" font-size="12" fill="#656d76" font-family="ui-monospace,Consolas,monospace">flink stop --savepointPath</text>
+  <text x="810" y="40" text-anchor="middle" font-size="17" font-weight="700" fill="#1f2328">③ 복구한 잡</text>
+  <text x="810" y="62" text-anchor="middle" font-size="12" fill="#656d76" font-family="ui-monospace,Consolas,monospace">flink run -s &lt;path&gt;</text>
+
+  <!-- column panels -->
+  <rect x="20" y="80" width="260" height="335" rx="10" fill="#f6f8fa" stroke="#d0d7de"/>
+  <rect x="350" y="80" width="260" height="335" rx="10" fill="#f6f8fa" stroke="#d0d7de"/>
+  <rect x="680" y="80" width="260" height="335" rx="10" fill="#f6f8fa" stroke="#d0d7de"/>
+
+  <!-- row 1 : uid unchanged -->
+  <rect x="35" y="100" width="230" height="80" rx="8" fill="#ffffff" stroke="#0969da"/>
+  <text x="150" y="133" text-anchor="middle" font-size="13" font-weight="700" fill="#0969da" font-family="ui-monospace,Consolas,monospace">uid: count-per-user</text>
+  <text x="150" y="158" text-anchor="middle" font-size="13" fill="#1f2328">keyed state   A → 5</text>
+
+  <rect x="365" y="100" width="230" height="80" rx="8" fill="#ffffff" stroke="#8c959f"/>
+  <text x="480" y="133" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2328" font-family="ui-monospace,Consolas,monospace">count-per-user</text>
+  <text x="480" y="158" text-anchor="middle" font-size="13" fill="#1f2328" font-family="ui-monospace,Consolas,monospace">{ A: 5 }</text>
+
+  <rect x="695" y="100" width="230" height="80" rx="8" fill="#dafbe1" stroke="#1a7f37"/>
+  <text x="810" y="133" text-anchor="middle" font-size="13" font-weight="700" fill="#1a7f37" font-family="ui-monospace,Consolas,monospace">uid: count-per-user</text>
+  <text x="810" y="158" text-anchor="middle" font-size="13" fill="#1a7f37" font-weight="700">A → 5   ✓ 유지</text>
+
+  <line x1="265" y1="140" x2="362" y2="140" stroke="#8c959f" stroke-width="2" marker-end="url(#arr-gray)"/>
+  <line x1="595" y1="140" x2="692" y2="140" stroke="#1a7f37" stroke-width="2.5" marker-end="url(#arr-green)"/>
+
+  <!-- row 2 : uid changed -->
+  <rect x="35" y="205" width="230" height="80" rx="8" fill="#ffffff" stroke="#0969da"/>
+  <text x="150" y="238" text-anchor="middle" font-size="13" font-weight="700" fill="#0969da" font-family="ui-monospace,Consolas,monospace">uid: sum-per-user</text>
+  <text x="150" y="263" text-anchor="middle" font-size="13" fill="#1f2328">keyed state   A → 300</text>
+
+  <rect x="365" y="205" width="230" height="80" rx="8" fill="#ffffff" stroke="#8c959f"/>
+  <text x="480" y="238" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2328" font-family="ui-monospace,Consolas,monospace">sum-per-user</text>
+  <text x="480" y="263" text-anchor="middle" font-size="13" fill="#1f2328" font-family="ui-monospace,Consolas,monospace">{ A: 300 }</text>
+
+  <rect x="695" y="205" width="230" height="80" rx="8" fill="#ffebe9" stroke="#cf222e"/>
+  <text x="810" y="238" text-anchor="middle" font-size="13" font-weight="700" fill="#cf222e" font-family="ui-monospace,Consolas,monospace">uid: sum-per-user-v2</text>
+  <text x="810" y="263" text-anchor="middle" font-size="13" fill="#cf222e" font-weight="700">빈 state   ✗ 매칭 실패</text>
+
+  <line x1="265" y1="245" x2="362" y2="245" stroke="#8c959f" stroke-width="2" marker-end="url(#arr-gray)"/>
+  <line x1="595" y1="245" x2="692" y2="245" stroke="#cf222e" stroke-width="2.5" stroke-dasharray="6 5" marker-end="url(#arr-red)"/>
+  <circle cx="643" cy="245" r="11" fill="#ffffff" stroke="#cf222e" stroke-width="2"/>
+  <text x="643" y="250" text-anchor="middle" font-size="14" font-weight="700" fill="#cf222e">✗</text>
+
+  <!-- row 3 : not state -->
+  <rect x="35" y="310" width="230" height="80" rx="8" fill="#ffffff" stroke="#8c959f" stroke-dasharray="5 4"/>
+  <text x="150" y="343" text-anchor="middle" font-size="13" font-weight="700" fill="#57606a">transient 필드 · open() 결과</text>
+  <text x="150" y="368" text-anchor="middle" font-size="13" fill="#57606a">state가 아님</text>
+
+  <rect x="365" y="310" width="230" height="80" rx="8" fill="#ffffff" stroke="#8c959f" stroke-dasharray="5 4"/>
+  <text x="480" y="355" text-anchor="middle" font-size="13" fill="#8c959f">저장되지 않음</text>
+
+  <rect x="695" y="310" width="230" height="80" rx="8" fill="#eaeef2" stroke="#8c959f"/>
+  <text x="810" y="343" text-anchor="middle" font-size="13" font-weight="700" fill="#57606a">transient → null</text>
+  <text x="810" y="368" text-anchor="middle" font-size="13" fill="#57606a">open() 다시 실행 · 초기화</text>
+
+  <!-- notes -->
+  <text x="30" y="455" font-size="13" fill="#1a7f37"><tspan font-weight="700">✓ 유지</tspan>  uid와 descriptor 이름이 같으면 savepoint의 state가 그대로 다시 붙는다 (코드 로직이 바뀌어도 된다)</text>
+  <text x="30" y="482" font-size="13" fill="#cf222e"><tspan font-weight="700">✗ 매칭 실패</tspan>  savepoint의 sum-per-user state가 갈 곳이 없다 → -n 없이 run -s 하면 복구 실패</text>
+  <text x="122" y="505" font-size="13" fill="#cf222e">-n (--allowNonRestoredState) 을 주면 그 state를 버리고 빈 state로 시작한다</text>
+</svg>
