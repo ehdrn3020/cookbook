@@ -2,6 +2,7 @@
 
 | 문서 | 작성일 |
 | --- | --- |
+| [Iceberg MERGE 결과를 스냅샷 비교로 검증하기](merge-snapshot-verification.md) | 2026-11-27 |
 | [MetaData 구조](metadata-structure.md) | 2026-09-17 |
 | [Java Quickstart](java-quickstart.md) | 2026-08-20 |
 | [Metrics Reporting](metrics-reporting.md) | 2026-07-05 |
